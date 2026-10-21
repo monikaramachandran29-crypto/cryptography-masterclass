@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔐 Ultimate Cryptography Masterclass</title>
+
+<style>
+* {margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;}
+
+body {
+background:linear-gradient(135deg,#0b0f1a 0%,#1a1f2e 50%,#16213e 100%);
+color:#e0e0e0;
+line-height:1.6;
+overflow-x:hidden;
+position:relative;
+}
+
+#particles {
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+pointer-events:none;
+}
+
+header {
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+padding:60px 20px;
+text-align:center;
+position:relative;
+}
+
+header h1 {
+color:#00eaff;
+font-size:clamp(32px,6vw,44px);
+margin-bottom:15px;
+text-shadow:0 0 30px rgba(0,234,255,0.6);
+}
+
+header p {
+font-size:clamp(16px,3vw,20px);
+color:#b5f3ff;
+max-width:700px;
+margin:0 auto;
+}
+
+nav {
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+background:rgba(17,24,39,0.95);
+backdrop-filter:blur(20px);
+padding:15px 0;
+box-shadow:0 8px 32px rgba(0,0,0,0.4);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+nav a {
+color:#fff;
+text-decoration:none;
+padding:14px 24px;
+font-size:15px;
+font-weight:500;
+transition:all 0.3s ease;
+border-radius:25px;
+margin:0 5px;
+}
+
+nav a:hover {
+background:linear-gradient(45deg,#00eaff,#00ffcc);
+color:#000;
+transform:translateY(-2px);
+box-shadow:0 8px 25px rgba(0,234,255,0.4);
+}
+
+section {
+padding:70px 20px;
+max-width:1400px;
+margin:auto;
+}
+
+.section-title {
+color:#00eaff;
+font-size:clamp(24px,5vw,32px);
+margin-bottom:35px;
+border-left:5px solid #00eaff;
+padding-left:25px;
+position:relative;
+font-weight:700;
+}
+
+.section-title::after {
+content:'';
+position:absolute;
+bottom:-15px;
+left:0;
+width:70px;
+height:3px;
+background:linear-gradient(90deg,#00eaff,#00ffcc);
+}
+
+.card {
+background:rgba(17,24,39,0.85);
+backdrop-filter:blur(15px);
+padding:35px;
+margin-bottom:30px;
+border-radius:16px;
+box-shadow:0 12px 40px rgba(0,234,255,0.15);
+border:1px solid rgba(0,234,255,0.2);
+transition:all 0.4s ease;
+}
+
+.card:hover {
+transform:translateY(-8px);
+box-shadow:0 25px 60px rgba(0,234,255,0.3);
+}
+
+.card h3 {
+color:#00ffcc;
+margin-bottom:20px;
+font-size:22px;
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.btn {
+background:linear-gradient(45deg,#00eaff,#00ffcc);
+border:none;
+padding:14px 28px;
+border-radius:10px;
+font-weight:600;
+cursor:pointer;
+transition:all 0.3s ease;
+margin:8px 4px 0 0;
+color:#000;
+}
+
+.btn:hover {
+background:linear-gradient(45deg,#00bcd4,#00e68a);
+transform:translateY(-3px);
+box-shadow:0 12px 35px rgba(0,234,255,0.5);
+}
+
+.btn-danger {
+background:linear-gradient(45deg,#ff6b6b,#ff8e8e)!important;
+}
+
+input,textarea {
+width:100%;
+padding:16px;
+margin:12px 0;
+border-radius:10px;
+border:2px solid rgba(0,234,255,0.3);
+background:rgba(17,24,39,0.9);
+color:#e0e0e0;
+font-size:16px;
+transition:all 0.3s ease;
+}
+
+input:focus,textarea:focus {
+outline:none;
+border-color:#00eaff;
+box-shadow:0 0 0 4px rgba(0,234,255,0.15);
+}
+
+.result-area {
+min-height:120px;
+resize:vertical;
+font-family:'Courier New',monospace;
+background:rgba(0,0,0,0.5)!important;
+border:2px solid rgba(0,255,204,0.4)!important;
+}
+
+.demo-grid {
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(400px,1fr));
+gap:30px;
+margin-top:30px;
+}
+
+.step-indicator {
+display:flex;
+gap:10px;
+margin:20px 0;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.step {
+width:40px;
+height:40px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-weight:bold;
+font-size:14px;
+color:#fff;
+background:rgba(0,234,255,0.2);
+border:2px solid rgba(0,234,255,0.4);
+transition:all 0.3s ease;
+}
+
+.step.active {
+background:linear-gradient(45deg,#00eaff,#00ffcc);
+color:#000;
+transform:scale(1.1);
+box-shadow:0 0 20px rgba(0,234,255,0.6);
+}
+
+.key-display {
+background:rgba(0,0,0,0.7);
+padding:15px;
+border-radius:8px;
+margin:15px 0;
+font-family:monospace;
+font-size:14px;
+border-left:4px solid #00ffcc;
+}
+
+@media (max-width:768px) {
+.demo-grid {
+grid-template-columns:1fr;
+}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+<h1>🔐 Cryptography Masterclass</h1>
+<p>7 Interactive Demos: Caesar • RSA • AES • SHA-256 • Diffie-Hellman • ECC • WebCrypto API</p>
+</header>
+
+<nav>
+<a href="#caesar">⚡ Caesar</a>
+<a href="#rsa">🔐 RSA</a>
+<a href="#aes">🔒 AES</a>
+<a href="#sha256">🔑 SHA-256</a>
+<a href="#dh">🔗 DH</a>
+<a href="#ecc">🔄 ECC</a>
+<a href="#webcrypto">🌐 WebCrypto</a>
+</nav>
+
+<section id="caesar">
+
+<h2 class="section-title">⚡ Caesar Cipher Demo</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>🔤 Message:</label>
+<input type="text" id="caesar-msg" value="HELLO WORLD">
+
+<label>🔢 Shift:</label>
+
+<input
+type="range"
+id="caesar-shift"
+min="1"
+max="25"
+value="3"
+oninput="updateShift('caesar-shift-val')"
+>
+
+<span id="caesar-shift-val">3</span>
+
+<button class="btn" onclick="caesarEncrypt()">🔒 Encrypt</button>
+
+<button class="btn" onclick="caesarDecrypt()">🔓 Decrypt</button>
+
+</div>
+
+<div class="card">
+
+<label>📊 Result:</label>
+
+<textarea
+id="caesar-result"
+class="result-area"
+readonly>
+</textarea>
+
+<div class="step-indicator" id="caesar-steps">
+<span class="step active">1</span>
+<span class="step">2</span>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- RSA -->
+
+<section id="rsa">
+
+<h2 class="section-title">🔐 RSA Educational Demo</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>📝 Message (0-99):</label>
+
+<input
+type="number"
+id="rsa-msg"
+min="0"
+max="99"
+value="42"
+>
+
+<button class="btn" onclick="generateRSA()">
+🔑 Generate Keys
+</button>
+
+<button class="btn" onclick="rsaEncrypt()">
+🔒 Encrypt
+</button>
+
+<button class="btn" onclick="rsaDecrypt()">
+🔓 Decrypt
+</button>
+
+<div
+id="rsa-keys"
+class="key-display"
+style="display:none;"
+>
+
+<strong>Public (e,n):</strong>
+<span id="pub-key"></span>
+
+<br>
+
+<strong>Private (d,n):</strong>
+<span id="priv-key"></span>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<label>📊 Result:</label>
+
+<textarea
+id="rsa-result"
+class="result-area"
+readonly>
+</textarea>
+
+<div class="step-indicator" id="rsa-steps">
+
+<span class="step active">1</span>
+<span class="step">2</span>
+<span class="step">3</span>
+<span class="step">4</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- AES -->
+
+<section id="aes">
+
+<h2 class="section-title">🔒 AES-128 Encryption Demo</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>🔤 Message:</label>
+
+<input
+type="text"
+id="aes-msg"
+maxlength="100"
+value="SECRET MESSAGE"
+>
+
+<label>🔑 Key (16 chars):</label>
+
+<input
+type="text"
+id="aes-key"
+maxlength="16"
+value="MYSECRETKEY12345"
+>
+
+<button class="btn" onclick="aesEncrypt()">
+🔒 Encrypt
+</button>
+
+<button class="btn" onclick="aesDecrypt()">
+🔓 Decrypt
+</button>
+
+</div>
+
+<div class="card">
+
+<label>📊 Result:</label>
+
+<textarea
+id="aes-result"
+class="result-area"
+readonly>
+</textarea>
+
+<div class="step-indicator" id="aes-steps">
+
+<span class="step active">1</span>
+<span class="step">2</span>
+<span class="step">3</span>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SHA-256 -->
+
+<section id="sha256">
+
+<h2 class="section-title">🔑 SHA-256 Hash Demo</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>🔤 Input:</label>
+
+<input
+type="text"
+id="sha-input"
+value="Hello World!"
+>
+
+<button class="btn" onclick="sha256Hash()">
+🔬 Hash
+</button>
+
+<button
+class="btn btn-danger"
+onclick="clearSHA()"
+>
+🗑️ Clear
+</button>
+
+</div>
+
+<div class="card">
+
+<label>📊 64-character Digest:</label>
+
+<textarea
+id="sha-result"
+class="result-area"
+readonly>
+</textarea>
+
+<button
+class="btn"
+onclick="copyHash()"
+style="padding:12px 24px;"
+>
+📋 Copy
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- DH -->
+
+<section id="dh">
+
+<h2 class="section-title">🔗 Diffie-Hellman Key Exchange</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<div class="key-display">
+
+<strong>p=23, g=5</strong> (Public)
+
+</div>
+
+<label>👩 Alice Private:</label>
+
+<input
+type="range"
+id="dh-alice"
+min="1"
+max="22"
+value="6"
+oninput="updateDH()"
+>
+
+<span id="alice-val">6</span>
+
+<br>
+
+<label>👨 Bob Private:</label>
+
+<input
+type="range"
+id="dh-bob"
+min="1"
+max="22"
+value="15"
+oninput="updateDH()"
+>
+
+<span id="bob-val">15</span>
+
+<button class="btn" onclick="dhExchange()">
+🚀 Exchange
+</button>
+
+</div>
+
+<div class="card">
+
+<label>🔐 Shared Secret:</label>
+
+<textarea
+id="dh-result"
+class="result-area"
+readonly>
+</textarea>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ECC -->
+
+<section id="ecc">
+
+<h2 class="section-title">🔄 ECC Educational Visualization</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>🔤 Message:</label>
+
+<input
+type="text"
+id="ecc-msg"
+value="ECC"
+>
+
+<button class="btn" onclick="eccDemo()">
+🔄 ECC Demo
+</button>
+
+</div>
+
+<div class="card">
+
+<label>📊 Result:</label>
+
+<textarea
+id="ecc-result"
+class="result-area"
+readonly>
+</textarea>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- WebCrypto -->
+
+<section id="webcrypto">
+
+<h2 class="section-title">🌐 WebCrypto API (Real Browser Crypto)</h2>
+
+<div class="demo-grid">
+
+<div class="card">
+
+<label>🔤 Message:</label>
+
+<input
+type="text"
+id="wc-msg"
+value="Secure WebCrypto"
+>
+
+<button class="btn" onclick="webCryptoDemo()">
+🔐 WebCrypto
+</button>
+
+</div>
+
+<div class="card">
+
+<label>📊 Real Crypto:</label>
+
+<textarea
+id="wc-result"
+class="result-area"
+readonly>
+</textarea>
+
+</div>
+
+</div>
+
+</section>
+
+
+<script>
+
+let rsaKeys = null;
+
+let particles = [];
+
+const canvas = document.getElementById('particles');
+
+const ctx = canvas.getContext('2d');
+
+canvas.width = window.innerWidth;
+
+canvas.height = window.innerHeight;
+
+
+function resize(){
+
+canvas.width = window.innerWidth;
+
+canvas.height = window.innerHeight;
+
+}
+
+window.addEventListener('resize',resize);
+
+
+for(let i=0;i<100;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+vx:(Math.random()-0.5)*0.5,
+
+vy:(Math.random()-0.5)*0.5,
+
+r:Math.random()*2+1
+
+});
+
+}
+
+
+function animate(){
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+particles.forEach(p=>{
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+if(p.x<0||p.x>canvas.width)
+p.vx*=-1;
+
+if(p.y<0||p.y>canvas.height)
+p.vy*=-1;
+
+ctx.beginPath();
+
+ctx.arc(
+p.x,
+p.y,
+p.r,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle='rgba(0,234,255,0.3)';
+
+ctx.fill();
+
+});
+
+requestAnimationFrame(animate);
+
+}
+
+animate();
+
+
+function scrollTo(id){
+
+document
+.querySelector(id)
+.scrollIntoView({
+behavior:'smooth'
+});
+
+}
+
+
+document
+.querySelectorAll('nav a')
+.forEach(a=>{
+
+a.addEventListener('click',e=>{
+
+e.preventDefault();
+
+scrollTo(
+a.getAttribute('href')
+);
+
+});
+
+});
+
+
+/* =========================
+   CAESAR CIPHER
+========================= */
+
+function updateShift(id){
+
+document.getElementById(id).textContent =
+document.getElementById('caesar-shift').value;
+
+}
+
+
+function caesarEncrypt(){
+
+let t =
+document.getElementById('caesar-msg').value.toUpperCase();
+
+let s =
+parseInt(
+document.getElementById('caesar-shift').value
+);
+
+let r="";
+
+for(let i=0;i<t.length;i++){
+
+let c=t.charCodeAt(i);
+
+if(c>=65&&c<=90)
+
+r+=String.fromCharCode(
+(c-65+s)%26+65
+);
+
+else
+
+r+=t[i];
+
+}
+
+document.getElementById('caesar-result').value =
+`🔒 ENCRYPTED: ${r}`;
+
+updateSteps('caesar-steps',2);
+
+}
+
+
+function caesarDecrypt(){
+
+let t =
+document.getElementById('caesar-msg').value.toUpperCase();
+
+let s =
+parseInt(
+document.getElementById('caesar-shift').value
+);
+
+let r="";
+
+for(let i=0;i<t.length;i++){
+
+let c=t.charCodeAt(i);
+
+if(c>=65&&c<=90)
+
+r+=String.fromCharCode(
+(c-65-s+26)%26+65
+);
+
+else
+
+r+=t[i];
+
+}
+
+document.getElementById('caesar-result').value =
+`🔓 DECRYPTED: ${r}`;
+
+updateSteps('caesar-steps',2);
+
+}
+
+
+/* =========================
+   RSA
+========================= */
+
+function modPow(b,e,m){
+
+let r=1;
+
+b%=m;
+
+while(e>0){
+
+if(e%2===1)
+
+r=(r*b)%m;
+
+e>>=1;
+
+b=(b*b)%m;
+
+}
+
+return r;
+
+}
+
+
+function generateRSA(){
+
+const p=61;
+
+const q=53;
+
+const n=p*q;
+
+const phi=(p-1)*(q-1);
+
+const e=17;
+
+let d=1;
+
+while((d*e)%phi!==1)
+
+d++;
+
+rsaKeys={
+p,
+q,
+n,
+e,
+d,
+phi
+};
+
+document.getElementById('pub-key').textContent =
+`${e},${n}`;
+
+document.getElementById('priv-key').textContent =
+`${d},${n}`;
+
+document.getElementById('rsa-keys').style.display='block';
+
+document.getElementById('rsa-result').value =
+`✅ Keys Generated
+p=${p}
+q=${q}
+n=${n}
+e=${e}
+d=${d}
+
+⚠️ Educational RSA demonstration only.`;
+
+updateSteps('rsa-steps',1);
+
+}
+
+
+function rsaEncrypt(){
+
+if(!rsaKeys){
+
+alert('Generate keys first!');
+
+return;
+
+}
+
+const m =
+parseInt(
+document.getElementById('rsa-msg').value
+);
+
+if(isNaN(m)||m<0||m>=rsaKeys.n){
+
+alert(`Message must be between 0 and ${rsaKeys.n-1}.`);
+
+return;
+
+}
+
+const c =
+modPow(
+m,
+rsaKeys.e,
+rsaKeys.n
+);
+
+document.getElementById('rsa-result').value =
+`m=${m} → c=${c}
+(m^e mod n)
+
+🔒 Encrypted successfully`;
+
+updateSteps('rsa-steps',3);
+
+}
+
+
+function rsaDecrypt(){
+
+if(!rsaKeys){
+
+alert('Generate keys first!');
+
+return;
+
+}
+
+const result =
+document.getElementById('rsa-result').value;
+
+const match =
+result.match(/c=(\d+)/);
+
+if(!match){
+
+alert('Encrypt the message first!');
+
+return;
+
+}
+
+const c=parseInt(match[1]);
+
+const m=
+modPow(
+c,
+rsaKeys.d,
+rsaKeys.n
+);
+
+document.getElementById('rsa-result').value +=
+`\n\nc=${c} → m=${m}
+(c^d mod n)
+
+🔓 Decrypted successfully`;
+
+updateSteps('rsa-steps',4);
+
+}
+
+
+/* =========================
+   REAL AES-128-GCM
+========================= */
+
+let aesEncryptedData = null;
+
+
+function stringToBytes(str){
+
+return new TextEncoder().encode(str);
+
+}
+
+
+function bytesToHex(bytes){
+
+return Array.from(bytes)
+.map(b=>b.toString(16).padStart(2,'0'))
+.join(' ')
+.toUpperCase();
+
+}
+
+
+function hexToBytes(hex){
+
+return new Uint8Array(
+hex
+.trim()
+.split(/\s+/)
+.map(x=>parseInt(x,16))
+);
+
+}
+
+
+async function aesEncrypt(){
+
+try{
+
+const message =
+document.getElementById('aes-msg').value;
+
+const keyText =
+document.getElementById('aes-key').value;
+
+if(keyText.length!==16){
+
+alert('AES-128 key must be exactly 16 characters.');
+
+return;
+
+}
+
+const keyBytes =
+stringToBytes(keyText);
+
+const messageBytes =
+stringToBytes(message);
+
+
+/* Generate AES-128 key */
+
+const key =
+await crypto.subtle.importKey(
+"raw",
+keyBytes,
+{
+name:"AES-GCM"
+},
+false,
+[
+"encrypt",
+"decrypt"
+]
+);
+
+
+/* Generate random IV */
+
+const iv =
+crypto.getRandomValues(
+new Uint8Array(12)
+);
+
+
+/* Real AES-GCM encryption */
+
+const encrypted =
+await crypto.subtle.encrypt(
+{
+name:"AES-GCM",
+iv:iv
+},
+key,
+messageBytes
+);
+
+
+aesEncryptedData={
+key:key,
+iv:iv,
+ciphertext:new Uint8Array(encrypted)
+};
+
+
+document.getElementById('aes-result').value =
+`Algorithm: AES-128-GCM
+
+Plaintext:
+${message}
+
+Key:
+${keyText}
+
+IV:
+${bytesToHex(iv)}
+
+Ciphertext:
+${bytesToHex(new Uint8Array(encrypted))}
+
+🔒 Real AES-128-GCM encryption`;
+
+updateSteps('aes-steps',2);
+
+}
+
+catch(error){
+
+document.getElementById('aes-result').value =
+`❌ AES Error:
+${error.message}`;
+
+}
+
+}
+
+
+async function aesDecrypt(){
+
+try{
+
+if(!aesEncryptedData){
+
+alert('Encrypt a message first!');
+
+return;
+
+}
+
+const decrypted =
+await crypto.subtle.decrypt(
+{
+name:"AES-GCM",
+iv:aesEncryptedData.iv
+},
+aesEncryptedData.key,
+aesEncryptedData.ciphertext
+);
+
+
+const plaintext =
+new TextDecoder().decode(decrypted);
+
+
+document.getElementById('aes-result').value +=
+`\n\n🔓 Decrypted:
+${plaintext}`;
+
+
+updateSteps('aes-steps',3);
+
+}
+
+catch(error){
+
+document.getElementById('aes-result').value +=
+`\n\n❌ Decryption failed.`;
+
+}
+
+}
+
+
+/* =========================
+   REAL SHA-256
+========================= */
+
+let lastSHAHash="";
+
+
+async function sha256Hash(){
+
+const t =
+document.getElementById('sha-input').value;
+
+const data =
+new TextEncoder().encode(t);
+
+
+const hashBuffer =
+await crypto.subtle.digest(
+'SHA-256',
+data
+);
+
+
+const hashArray =
+Array.from(
+new Uint8Array(hashBuffer)
+);
+
+
+const hashHex =
+hashArray
+.map(
+b=>b.toString(16).padStart(2,'0')
+)
+.join('')
+.toUpperCase();
+
+
+lastSHAHash=hashHex;
+
+
+document.getElementById('sha-result').value =
+`SHA-256:
+${hashHex}
+
+Input: "${t}"`;
+
+}
+
+
+function copyHash(){
+
+if(!lastSHAHash){
+
+alert('Generate SHA-256 hash first!');
+
+return;
+
+}
+
+navigator.clipboard
+.writeText(lastSHAHash)
+.then(()=>{
+
+alert('✅ Hash copied!');
+
+})
+.catch(()=>{
+
+alert('❌ Unable to copy.');
+
+});
+
+}
+
+
+function clearSHA(){
+
+document.getElementById('sha-input').value =
+'Hello World!';
+
+document.getElementById('sha-result').value='';
+
+lastSHAHash="";
+
+}
+
+
+/* =========================
+   DIFFIE-HELLMAN
+========================= */
+
+function updateDH(){
+
+document.getElementById('alice-val').textContent =
+document.getElementById('dh-alice').value;
+
+document.getElementById('bob-val').textContent =
+document.getElementById('dh-bob').value;
+
+}
+
+
+function dhExchange(){
+
+const p=23;
+
+const g=5;
+
+const a=
+parseInt(
+document.getElementById('dh-alice').value
+);
+
+const b=
+parseInt(
+document.getElementById('dh-bob').value
+);
+
+const ap=
+modPow(g,a,p);
+
+const bp=
+modPow(g,b,p);
+
+const as=
+modPow(bp,a,p);
+
+const bs=
+modPow(ap,b,p);
+
+document.getElementById('dh-result').value =
+`Alice Public: ${ap}
+
+Bob Public: ${bp}
+
+Alice Secret: ${as}
+
+Bob Secret: ${bs}
+
+✅ ${as===bs?'MATCH!':'ERROR'}`;
+
+}
+
+
+/* =========================
+   ECC EDUCATIONAL DEMO
+========================= */
+
+function eccDemo(){
+
+const message =
+document.getElementById('ecc-msg').value;
+
+document.getElementById('ecc-result').value =
+`🔄 ECC Educational Demonstration
+
+Curve:
+secp256k1
+
+Used in:
+Bitcoin and other cryptographic systems
+
+Message:
+${message}
+
+Concept:
+ECC uses elliptic-curve mathematics
+to provide strong security with
+smaller key sizes.
+
+Example:
+256-bit ECC key ≈ high security level
+
+⚠️ This section is a visualization,
+not a complete ECC implementation.`;
+
+}
+
+
+/* =========================
+   REAL WEBCRYPTO AES-GCM
+========================= */
+
+async function webCryptoDemo(){
+
+try{
+
+const msg =
+new TextEncoder().encode(
+document.getElementById('wc-msg').value
+);
+
+
+const key =
+await crypto.subtle.generateKey(
+{
+name:'AES-GCM',
+length:256
+},
+true,
+[
+'encrypt',
+'decrypt'
+]
+);
+
+
+/* Secure random IV */
+
+const iv =
+crypto.getRandomValues(
+new Uint8Array(12)
+);
+
+
+const ct =
+await crypto.subtle.encrypt(
+{
+name:'AES-GCM',
+iv:iv
+},
+key,
+msg
+);
+
+
+document.getElementById('wc-result').value =
+`✅ WebCrypto AES-GCM
+
+Algorithm:
+AES-256-GCM
+
+Key:
+Generated securely by browser
+
+IV:
+${bytesToHex(iv)}
+
+Ciphertext:
+${bytesToHex(
+new Uint8Array(ct)
+)}
+
+🔐 Real Browser Cryptography`;
+
+}
+
+catch(e){
+
+document.getElementById('wc-result').value =
+`❌ WebCrypto Error:
+${e.message}`;
+
+}
+
+}
+
+
+/* =========================
+   STEP INDICATOR
+========================= */
+
+function updateSteps(id,s){
+
+document
+.querySelectorAll(`#${id} .step`)
+.forEach((step,i)=>{
+
+step.classList.toggle(
+'active',
+i+1===s
+);
+
+});
+
+}
+
+
+/* =========================
+   PAGE LOAD
+========================= */
+
+window.onload=()=>{
+
+caesarEncrypt();
+
+updateShift(
+'caesar-shift-val'
+);
+
+updateDH();
+
+sha256Hash();
+
+};
+
+</script>
+
+</body>
+</html>
